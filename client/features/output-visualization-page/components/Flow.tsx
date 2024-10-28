@@ -18,7 +18,7 @@ import ReactFlow, {
   Panel,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import LinktaFlowEdge from '@features/output-visualization-page/components/LinktaFlowEdge';
+import LinktaFlowEdge from '@/features/output-visualization-page/components/LinktaEdge';
 import LinktaNode from '@features/output-visualization-page/components/LinktaNode';
 import ConnectionLine from '@features/output-visualization-page/components/ConnectionLine';
 import useFetchLinktaFlow from '@hooks/useFetchLinktaFlow';
