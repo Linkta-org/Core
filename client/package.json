@@ -60,6 +60,7 @@
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
     "@hookform/resolvers": "^3.6.0",
+    "@jackfranklin/test-data-bot": "^2.1.0",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@tanstack/react-query": "^5.28.8",
