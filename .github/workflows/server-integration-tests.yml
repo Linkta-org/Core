@@ -1,0 +1,50 @@
+name: Server Integration Tests
+
+on:
+  push:
+    paths:
+      - "server/**"
+      - ".github/workflows/server-integration-tests.yml"
+  pull_request:
+    paths:
+      - "server/**"
+
+jobs:
+  test:
+    name: Server Integration Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./server
+
+    strategy:
+      matrix:
+        node-version: [20.11.1]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./server/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run integration tests
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+          PORT: ${{ secrets.PORT }}
+          CLIENT_BASE_URL: ${{ secrets.CLIENT_BASE_URL }}
+          SERVER_BASE_URL: ${{ secrets.SERVER_BASE_URL }}
+          NODE_ENV: test
+        run: npm run test:integration --mode integration
