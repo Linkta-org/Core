@@ -11,23 +11,22 @@ const baseConfig = defineConfig({
   },
 });
 
-// Configuration specific to unit tests
-const unitConfig = mergeConfig(baseConfig, {
-  test: {
-    include: ['**/*.unit.test.[jt]s?(x)'],
-    setupFiles: ['./tests/unit/setup/testSetup.ts'],
-  },
-});
+export default defineConfig(({ mode }) => {
+  // Configuration specific to unit tests
+  const unitConfig = mergeConfig(baseConfig, {
+    test: {
+      include: ['tests/unit/**/*.test.[jt]s?(x)'],
+      setupFiles: ['./tests/unit/setup/testSetup.ts'],
+    },
+  });
 
-// Configuration specific to integration tests
-const integrationConfig = mergeConfig(baseConfig, {
-  test: {
-    include: ['**/*.integration.test.[jt]s?(x)'],
-  },
-});
+  // Configuration specific to integration tests
+  const integrationConfig = mergeConfig(baseConfig, {
+    test: {
+      include: ['tests/integration/**/*.test.[jt]s?(x)'],
+    },
+  });
 
-// Export configuration based on TEST_TYPE environment variable
-// Defaults to unitConfig if TEST_TYPE is not set to 'integration'
-export default process.env.TEST_TYPE === 'integration'
-  ? integrationConfig
-  : unitConfig;
+  // Return config based on mode
+  return mode === 'integration' ? integrationConfig : unitConfig;
+});

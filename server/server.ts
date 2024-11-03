@@ -28,11 +28,12 @@ const logger = getLogger('[SERVER]');
 const uri = process.env.MONGO_DB_URI;
 mongoose.set('strictQuery', false);
 
+const app: Express = express();
+
 /**
  * Start the server.
  */
 function startServer() {
-  const app: Express = express();
   const PORT = process.env.PORT || 3000;
 
   // Apply the rate limiting middleware to all requests.
@@ -165,3 +166,6 @@ async function connectToDatabase(link: string) {
  * Start the server.
  */
 startServer();
+
+// Export app for testing
+export { app };
