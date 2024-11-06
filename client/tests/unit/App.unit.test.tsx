@@ -31,11 +31,6 @@ describe('App', () => {
 
     const result = render(<App router={router} />);
 
-    // Debug what's being rendered
-    console.log('Auth State:', authState);
-    console.log('Current Route:', initialRoute);
-    screen.debug();
-
     return result;
   };
 
@@ -49,12 +44,9 @@ describe('App', () => {
   });
 
   it('renders authenticated content when authenticated', () => {
-    // Use the specific route where authenticated content should appear
-    renderWithAuth(true, '/dashboard'); // or whatever your authenticated route is
+    renderWithAuth(true, '/generated');
     expect(
-      screen.getByRole('heading', {
-        name: /start your learning journey here:/i,
-      }),
+      screen.getByRole('link', { name: /explore a new topic/i }),
     ).toBeInTheDocument();
   });
 });
