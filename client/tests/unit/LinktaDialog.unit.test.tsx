@@ -25,7 +25,9 @@ describe('LinktaDialog Component', () => {
 
   it('should render the dialog with title and content', async () => {
     render(<LinktaDialog {...defaultProps} />, {
-      initialEntries: ['/linktaDialog'],
+      routingOptions: {
+        initialEntries: ['/linktaDialog'],
+      },
     });
 
     expect(await screen.findByText('Test Dialog Title')).toBeInTheDocument();
@@ -34,7 +36,9 @@ describe('LinktaDialog Component', () => {
 
   it('should call onConfirm when the confirm button is clicked', async () => {
     const { user } = render(<LinktaDialog {...defaultProps} />, {
-      initialEntries: ['/linktaDialog'],
+      routingOptions: {
+        initialEntries: ['/linktaDialog'],
+      },
     });
     const confirmButton = await screen.findByRole('button', {
       name: /confirm/i,
@@ -45,7 +49,9 @@ describe('LinktaDialog Component', () => {
 
   it('should call onCancel when the cancel button is clicked', async () => {
     const { user } = render(<LinktaDialog {...defaultProps} />, {
-      initialEntries: ['/linktaDialog'],
+      routingOptions: {
+        initialEntries: ['/linktaDialog'],
+      },
     });
     const cancelButton = await screen.findByRole('button', { name: /cancel/i });
     await user.click(cancelButton);
@@ -54,7 +60,9 @@ describe('LinktaDialog Component', () => {
 
   it('should apply the confirmButtonClass to the confirm button', async () => {
     render(<LinktaDialog {...defaultProps} />, {
-      initialEntries: ['/linktaDialog'],
+      routingOptions: {
+        initialEntries: ['/linktaDialog'],
+      },
     });
     const confirmButton = await screen.findByRole('button', {
       name: /confirm/i,
@@ -69,7 +77,9 @@ describe('LinktaDialog Component', () => {
         confirmButtonDisabled={true}
       />,
       {
-        initialEntries: ['/linktaDialog'],
+        routingOptions: {
+          initialEntries: ['/linktaDialog'],
+        },
       },
     );
     const confirmButton = await screen.findByRole('button', {
@@ -84,7 +94,11 @@ describe('LinktaDialog Component', () => {
         {...defaultProps}
         isOpen={false}
       />,
-      { initialEntries: ['/linktaDialog'] },
+      {
+        routingOptions: {
+          initialEntries: ['/linktaDialog'],
+        },
+      },
     );
 
     await waitFor(() => {

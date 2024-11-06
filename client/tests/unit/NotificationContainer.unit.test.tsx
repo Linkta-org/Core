@@ -36,7 +36,9 @@ describe('NotificationContainer', () => {
 
   it('renders the notifications', () => {
     render(<NotificationContainer />, {
-      initialEntries: ['/NotificationContainer'],
+      routingOptions: {
+        initialEntries: ['/NotificationContainer'],
+      },
     });
 
     expect(screen.getByText('Notification 1')).toBeInTheDocument();
@@ -45,7 +47,9 @@ describe('NotificationContainer', () => {
 
   it('shows "Dismiss All" button when there are multiple notifications', () => {
     render(<NotificationContainer />, {
-      initialEntries: ['/NotificationContainer'],
+      routingOptions: {
+        initialEntries: ['/NotificationContainer'],
+      },
     });
 
     expect(
@@ -56,7 +60,9 @@ describe('NotificationContainer', () => {
   it('calls clearAllNotifications when "Dismiss All" button is clicked', async () => {
     const user = userEvent.setup();
     render(<NotificationContainer />, {
-      initialEntries: ['/NotificationContainer'],
+      routingOptions: {
+        initialEntries: ['/NotificationContainer'],
+      },
     });
     const dismissAllButton = screen.getByRole('button', {
       name: /dismiss all/i,
@@ -69,7 +75,9 @@ describe('NotificationContainer', () => {
   it('calls removeNotification when an individual notification is dismissed', async () => {
     const user = userEvent.setup();
     render(<NotificationContainer />, {
-      initialEntries: ['/NotificationContainer'],
+      routingOptions: {
+        initialEntries: ['/NotificationContainer'],
+      },
     });
 
     const closeButton = screen.getAllByRole('button', { name: /close/i })[0];
