@@ -6,8 +6,10 @@ import { type LogFile } from '@controllers/logsController';
 
 getEnv();
 const logger = log4js.getLogger('[LOGS SERVICE]');
+
+const isTestEnvironment = process.env.NODE_ENV === 'test';
 const logsUri = process.env.LOGGER_DB_URI as string;
-const logsClient = new MongoClient(logsUri);
+const logsClient = isTestEnvironment ? null : new MongoClient(logsUri);
 
 /**
  * Creates a service for managing users.
@@ -18,6 +20,12 @@ const createLogsService = () => {
    * Uploads all log files from the local /logs directory to the database.
    */
   const uploadLogs = async (logs: LogFile[]) => {
+    // Only require the LOGGER_DB_URI if not in a testing environment
+    if (isTestEnvironment || !logsClient) {
+      logger.info('Skipping logs upload in test environment');
+      return;
+    }
+
     try {
       await logsClient
         .connect()
@@ -60,6 +68,11 @@ const createLogsService = () => {
    * Deletes all logs created before a given date.
    */
   const evictLogs = async (cutoffDate: Date) => {
+    if (isTestEnvironment || !logsClient) {
+      logger.info('Skipping logs deletion in test environment');
+      return;
+    }
+
     try {
       await logsClient
         .connect()
@@ -86,6 +99,11 @@ const createLogsService = () => {
    * Gets all log files from within a given date range.
    */
   const getLogsByDateRange = async (startDate: Date, endDate: Date) => {
+    if (isTestEnvironment || !logsClient) {
+      logger.info('Skipping logs retrieval in test environment');
+      return [];
+    }
+
     try {
       await logsClient
         .connect()

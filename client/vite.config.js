@@ -25,14 +25,4 @@ export default defineConfig({
       localsConvention: 'camelCase', // Configure CSS modules
     },
   },
-  test: {
-    coverage: {
-      reporter: ['text', 'lcov'],
-      exclude: ['node_modules/', 'dist/'],
-    },
-    environment: 'jsdom',
-    globals: true,
-    include: ['**/*.unit.test.[jt]s?(x)'],
-    setupFiles: ['./tests/unit/vitest.setup.ts'],
-  },
 });

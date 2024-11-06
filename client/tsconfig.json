@@ -73,7 +73,8 @@
     "validators/**/*",
     "*.tsx",
     "tests/**/*.ts*",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "vitest.config.ts"
   ],
   "exclude": ["dist", "node_modules"],
   "ts-node": {

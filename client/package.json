@@ -10,9 +10,12 @@
     "start": "vite preview --config vite.config.js",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
-    "test": "vitest",
-    "test:ci": "vitest run",
-    "test:watch": "vitest watch"
+    "test": "npm run test:unit && npm run test:integration",
+    "test:watch": "npm run test:unit:watch & npm run test:integration:watch",
+    "test:unit": "vitest run --mode unit",
+    "test:unit:watch": "vitest watch --mode unit",
+    "test:integration": "vitest run --mode integration",
+    "test:integration:watch": "vitest watch --mode integration"
   },
   "keywords": [
     "education"
