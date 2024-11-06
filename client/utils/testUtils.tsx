@@ -1,43 +1,43 @@
 import React from 'react';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Theme from '@/utils/customTheme';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
-interface CustomRenderOptions extends RenderOptions {
-  routingOptions?: {
+interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+  queryClient?: QueryClient;
+  routerOptions?: {
     initialEntries?: string[];
-    initialIndex?: number;
+    routes?: Array<{
+      path: string;
+      element: React.ReactElement;
+    }>;
   };
 }
 
-const createTestQueryClient = () =>
-  new QueryClient({
+function createTestQueryClient() {
+  return new QueryClient({
     defaultOptions: {
       queries: {
         retry: false,
-        staleTime: 0,
       },
     },
   });
+}
 
 export function customRender(
   ui: React.ReactElement,
-  { routingOptions = {}, ...renderOptions }: CustomRenderOptions = {},
+  {
+    queryClient = createTestQueryClient(),
+    routerOptions,
+    ...renderOptions
+  }: CustomRenderOptions = {},
 ) {
   const user = userEvent.setup();
-  const queryClient = createTestQueryClient();
-
-  const { initialEntries = ['/'], initialIndex } = routingOptions;
-
-  const router = createMemoryRouter([{ path: '*', element: ui }], {
-    initialEntries,
-    initialIndex,
-  });
 
   function AllTheProviders({ children }: { children: React.ReactNode }) {
     return (
@@ -50,15 +50,22 @@ export function customRender(
     );
   }
 
+  // Only wrap in RouterProvider if routerOptions is provided
+  const wrappedUi = routerOptions ? (
+    <RouterProvider
+      router={createMemoryRouter(
+        routerOptions.routes ?? [{ path: '*', element: ui }],
+        { initialEntries: routerOptions.initialEntries ?? ['/'] },
+      )}
+    />
+  ) : (
+    ui
+  );
+
   return {
     user,
     queryClient,
-    ...render(
-      <AllTheProviders>
-        <RouterProvider router={router} />
-      </AllTheProviders>,
-      renderOptions,
-    ),
+    ...render(<AllTheProviders>{wrappedUi}</AllTheProviders>, renderOptions),
   };
 }
 
