@@ -36,7 +36,7 @@ describe('NotificationContainer', () => {
 
   it('renders the notifications', () => {
     render(<NotificationContainer />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/NotificationContainer'],
       },
     });
@@ -47,7 +47,7 @@ describe('NotificationContainer', () => {
 
   it('shows "Dismiss All" button when there are multiple notifications', () => {
     render(<NotificationContainer />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/NotificationContainer'],
       },
     });
@@ -60,7 +60,7 @@ describe('NotificationContainer', () => {
   it('calls clearAllNotifications when "Dismiss All" button is clicked', async () => {
     const user = userEvent.setup();
     render(<NotificationContainer />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/NotificationContainer'],
       },
     });
@@ -75,7 +75,7 @@ describe('NotificationContainer', () => {
   it('calls removeNotification when an individual notification is dismissed', async () => {
     const user = userEvent.setup();
     render(<NotificationContainer />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/NotificationContainer'],
       },
     });

@@ -25,7 +25,7 @@ describe('LinktaDialog Component', () => {
 
   it('should render the dialog with title and content', async () => {
     render(<LinktaDialog {...defaultProps} />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/linktaDialog'],
       },
     });
@@ -36,7 +36,7 @@ describe('LinktaDialog Component', () => {
 
   it('should call onConfirm when the confirm button is clicked', async () => {
     const { user } = render(<LinktaDialog {...defaultProps} />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/linktaDialog'],
       },
     });
@@ -49,7 +49,7 @@ describe('LinktaDialog Component', () => {
 
   it('should call onCancel when the cancel button is clicked', async () => {
     const { user } = render(<LinktaDialog {...defaultProps} />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/linktaDialog'],
       },
     });
@@ -60,7 +60,7 @@ describe('LinktaDialog Component', () => {
 
   it('should apply the confirmButtonClass to the confirm button', async () => {
     render(<LinktaDialog {...defaultProps} />, {
-      routingOptions: {
+      routerOptions: {
         initialEntries: ['/linktaDialog'],
       },
     });
@@ -77,7 +77,7 @@ describe('LinktaDialog Component', () => {
         confirmButtonDisabled={true}
       />,
       {
-        routingOptions: {
+        routerOptions: {
           initialEntries: ['/linktaDialog'],
         },
       },
@@ -95,7 +95,7 @@ describe('LinktaDialog Component', () => {
         isOpen={false}
       />,
       {
-        routingOptions: {
+        routerOptions: {
           initialEntries: ['/linktaDialog'],
         },
       },
