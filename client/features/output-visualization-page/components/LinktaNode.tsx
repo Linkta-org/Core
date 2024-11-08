@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import type { NodeProps } from 'reactflow';
 import { Handle, Position } from 'reactflow';
 import { Box, Paper, Typography } from '@mui/material';
-import { ExpandCircleDownOutlined } from '@mui/icons-material';
+import { DragIndicator, ExpandCircleDownOutlined } from '@mui/icons-material';
 import styles from '@styles/LinktaFlow.module.css';
 
 type LinktaNodeData = {
@@ -26,7 +26,7 @@ const LinktaNode = memo(({ isConnectable, data }: LinktaNodeProps) => {
       className={`${styles.node}`}
     >
       <Box className={`${styles.dragHandle} dragHandle`}>
-        {/* <DragIndicator className={`${styles.dragIndicator}`} /> */}
+        <DragIndicator className={`${styles.dragIndicator}`} />
       </Box>
       <Typography className={`${styles.nodeLabel}`}>{data.label}</Typography>
       <Box className={`${styles.nodeButtonContainer}`}>

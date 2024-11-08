@@ -37,11 +37,11 @@
   background-color: #2e77ae;
   cursor: grab;
   user-select: none;
-  /* > .dragIndicator {
+  > .dragIndicator {
     color: #979797;
     font-size: 1rem;
     filter: drop-shadow(0.8px 0.8px 0.3px hsla(0, 0%, 0%, 0.5));
-  } */
+  }
 }
 
 .nodeLabel {
