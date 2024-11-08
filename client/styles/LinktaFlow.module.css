@@ -1,6 +1,7 @@
 .anchor {
-  background-color: black;
-  border: 1px solid #979797;
+  background-color: #979797;
+  /* border: 1px solid #979797; */
+  border: none;
 }
 
 .node {
@@ -13,11 +14,10 @@
   width: 168px;
   border-radius: 5px;
   border: 1px solid #979797;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  &:hover {
-    pointer-events: none;
-    cursor: default;
+  cursor: default;
+  &.selected {
+    border: 4px solid var(--secondary-main);
   }
 }
 
@@ -27,7 +27,7 @@
   box-shadow: 0 0 4px 1px rgba(255, 165, 27, 0.6);
 }
 
-.nodeGrabHandle {
+.dragHandle {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,17 +35,13 @@
   width: 10px;
   height: 100%;
   background-color: #2e77ae;
-  > .dragIndicator {
+  cursor: grab;
+  user-select: none;
+  /* > .dragIndicator {
     color: #979797;
     font-size: 1rem;
     filter: drop-shadow(0.8px 0.8px 0.3px hsla(0, 0%, 0%, 0.5));
-    &:hover {
-      pointer-events: none;
-    }
-  }
-  &:hover {
-    background-color: #1c4a6d;
-  }
+  } */
 }
 
 .nodeLabel {
