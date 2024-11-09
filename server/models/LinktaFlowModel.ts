@@ -17,7 +17,7 @@ const nodeSchema = new Schema<Node>({
   className: { type: String },
   hidden: { type: Boolean, default: false },
   selected: { type: Boolean, default: false },
-  draggable: { type: Boolean, default: false },
+  draggable: { type: Boolean },
   dragging: { type: Boolean, default: false },
   selectable: { type: Boolean, default: true },
   connectable: { type: Boolean, default: true },

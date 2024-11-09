@@ -71,15 +71,7 @@ function Flow({ userInputId }: { userInputId: string }) {
   } = useLinktaFlowStore();
   const { data: linktaFlow, fetchStatus } = useFetchLinktaFlow(userInputId);
 
-  const initialNodes = currentLinktaFlow?.nodes || [
-    {
-      id: '1',
-      type: 'linktaNode',
-      position: { x: 100, y: 100 },
-      data: { label: 'Node 1' },
-      dragHandle: '..dragHandle',
-    },
-  ];
+  const initialNodes = currentLinktaFlow?.nodes || [];
   const initialEdges = currentLinktaFlow?.edges || [];
 
   const [nodes, setNodes] = useState<Node[]>(initialNodes);

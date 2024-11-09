@@ -16,10 +16,8 @@
   border: 1px solid #979797;
   overflow: hidden;
   cursor: default;
-  &.selected {
-    border: 4px solid var(--secondary-main);
-  }
 }
+
 
 .nodeFocused {
   border: 0.2px solid var(--secondary-main);
@@ -41,6 +39,9 @@
     color: #979797;
     font-size: 1rem;
     filter: drop-shadow(0.8px 0.8px 0.3px hsla(0, 0%, 0%, 0.5));
+  }
+  &:active {
+    cursor: grabbing;
   }
 }
 
@@ -65,9 +66,11 @@
 }
 
 .nodeButton {
-  font-size: 0.8rem;
   color: #979797;
   cursor: pointer;
+  > svg {
+    font-size: 0.8rem;
+  }
 }
 
 .edge {
