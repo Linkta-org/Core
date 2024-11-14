@@ -3,10 +3,14 @@ import { RouterProvider } from 'react-router-dom';
 import IndexRouter from '@routes/index';
 import NotificationContainer from '@components/common/NotificationContainer';
 
-const App: React.FC = () => {
+interface AppProps {
+  router?: ReturnType<typeof IndexRouter>;
+}
+
+const App: React.FC<AppProps> = ({ router = IndexRouter() }) => {
   return (
     <>
-      <RouterProvider router={IndexRouter()} />
+      <RouterProvider router={router} />
       <NotificationContainer />
     </>
   );

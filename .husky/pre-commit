@@ -1,7 +1,4 @@
-#npm run text
-
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
 echo "┏━━━ 🛠️  Running TypeScript compiler checks ━━━━━━━"
 
