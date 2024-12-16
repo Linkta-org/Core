@@ -11,6 +11,7 @@ import useLinktaFlowStore from '@stores/LinktaFlowStore';
 import useSignOut from '@hooks/useSignOut';
 import { useNotification } from '@hooks/useNotification';
 import useWatchAuthenticatedState from '@hooks/useWatchAuthenticatedState';
+import { SCREEN_BREAK_POINT } from '@utils/constants';
 
 /**
  * MainLayout provides the app's global UI layout and the Router Outlet.
@@ -21,8 +22,7 @@ import useWatchAuthenticatedState from '@hooks/useWatchAuthenticatedState';
 const StaticLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const breakpoint = 768;
-  const screenWithinBreakpoint = useMatchMedia(breakpoint);
+  const screenWithinBreakpoint = useMatchMedia(SCREEN_BREAK_POINT);
   const { drawerOpen, setDrawerOpen } = useSideNavDrawerStore();
   const { mutate: updateLinktaFlow } = useUpdateLinktaFlowMutation();
   const currentLinktaFlow = useLinktaFlowStore((state) =>
