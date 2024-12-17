@@ -18,7 +18,6 @@
   cursor: default;
 }
 
-
 .nodeFocused {
   border: 0.2px solid var(--secondary-main);
   border-left: 0.2px solid var(--secondary-main);

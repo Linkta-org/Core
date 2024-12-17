@@ -7,9 +7,7 @@ import styles from '@styles/LinktaFlow.module.css';
 import OptionsMenu from '@/components/layout/OptionsMenu';
 
 type LinktaNodeData = {
-  color?: string;
   label?: string;
-  id: string;
 };
 
 type LinktaNodeProps = NodeProps<LinktaNodeData> & {
@@ -30,7 +28,7 @@ const LinktaNode = memo(({ isConnectable, data }: LinktaNodeProps) => {
     console.log('Placeholder for handleLiktaFlowRegeneration');
   };
 
-  console.log({ isRenamingDialogOpen, isDeletionDialogOpen });
+  console.log({ isRenamingDialogOpen, isDeletionDialogOpen, data });
 
   return (
     <Paper
