@@ -1,67 +1,73 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import React from 'react';
-import { render } from '@testing-library/react';
-import { ThemeProvider } from '@mui/material/styles';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import userEvent from '@testing-library/user-event';
-import CssBaseline from '@mui/material/CssBaseline';
-
-import Theme from './customTheme';
-import HomePage from '@features/home-page/HomePage';
-
-import type { ReactElement } from 'react';
 import type { RenderOptions } from '@testing-library/react';
-import type { RouteObject } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import Theme from '@/utils/customTheme';
+import userEvent from '@testing-library/user-event';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
-});
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={Theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
-  </QueryClientProvider>
-);
-
-export default AllTheProviders;
-const customRender = (
-  ui: ReactElement,
-  {
-    routeConfig = [
-      { path: '/', element: <HomePage /> },
-      { path: '*', element: ui },
-    ],
-    initialEntries = ['/'],
-    ...options
-  }: {
-    routeConfig?: Array<RouteObject>;
+interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+  queryClient?: QueryClient;
+  routerOptions?: {
     initialEntries?: string[];
-  } & Omit<RenderOptions, 'wrapper'> = {},
-) => {
+    routes?: Array<{
+      path: string;
+      element: React.ReactElement;
+    }>;
+  };
+}
+
+function createTestQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+}
+
+export function customRender(
+  ui: React.ReactElement,
+  {
+    queryClient = createTestQueryClient(),
+    routerOptions,
+    ...renderOptions
+  }: CustomRenderOptions = {},
+) {
   const user = userEvent.setup();
+
+  function AllTheProviders({ children }: { children: React.ReactNode }) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={Theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </QueryClientProvider>
+    );
+  }
+
+  // Only wrap in RouterProvider if routerOptions is provided
+  const wrappedUi = routerOptions ? (
+    <RouterProvider
+      router={createMemoryRouter(
+        routerOptions.routes ?? [{ path: '*', element: ui }],
+        { initialEntries: routerOptions.initialEntries ?? ['/'] },
+      )}
+    />
+  ) : (
+    ui
+  );
 
   return {
     user,
-    ...render(
-      <MemoryRouter initialEntries={initialEntries}>
-        <AllTheProviders>
-          <Routes>
-            {routeConfig.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                element={route.element}
-              />
-            ))}
-          </Routes>
-        </AllTheProviders>
-      </MemoryRouter>,
-      options,
-    ),
+    queryClient,
+    ...render(<AllTheProviders>{wrappedUi}</AllTheProviders>, renderOptions),
   };
-};
+}
 
 export * from '@testing-library/react';
 export { customRender as render };

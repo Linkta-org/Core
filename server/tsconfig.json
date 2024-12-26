@@ -52,7 +52,8 @@
     "types/**/*",
     "utils/**/*",
     "validators/**/*",
-    "tests/**/*"
+    "tests/**/*",
+    "vitest.config"
   ],
   "exclude": ["dist", "node_modules", "./utils/path-alias.js"],
   "ts-node": {

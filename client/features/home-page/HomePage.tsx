@@ -2,12 +2,20 @@ import React from 'react';
 import useDocumentTitle from '@hooks/useDocumentTitle';
 import { Box, Typography } from '@mui/material';
 import styles from '@styles/Homepage.module.css';
+import useMatchMedia from '@hooks/useMatchMedia';
+import { SCREEN_BREAK_POINT } from '@utils/constants';
 
 const HomePage = () => {
   useDocumentTitle();
+  const screenWithinBreakpoint = useMatchMedia(SCREEN_BREAK_POINT);
+
   return (
-    <Box className={`${styles.homeContainer}`}>
-      <Box className={`${styles.copyContainer}`}>
+    <Box
+      className={`${screenWithinBreakpoint ? styles.homeContainerNarrow : styles.homeContainerWide}`}
+    >
+      <Box
+        className={`${screenWithinBreakpoint ? styles.copyContainerNarrow : styles.copyContainerWide}`}
+      >
         <Typography variant='h4'>
           Revolutionizing Learning: Intuitive Visualization for Complex Concepts
         </Typography>
@@ -20,11 +28,15 @@ const HomePage = () => {
           both intuitive and accessible.
         </Typography>
       </Box>
-      <img
-        className={`${styles.homeImage}`}
-        alt='A 3D model showing various gadgets and widgets.'
-        src='/Linkta-Landing.png'
-      ></img>
+      <Box
+        className={`${screenWithinBreakpoint ? styles.imageContainerNarrow : styles.imageContainerWide}`}
+      >
+        <img
+          className={`${screenWithinBreakpoint ? styles.homeImageNarrow : styles.homeImageWide}`}
+          alt='A 3D model showing various gadgets and widgets.'
+          src='/Linkta-Landing.png'
+        ></img>
+      </Box>
     </Box>
   );
 };

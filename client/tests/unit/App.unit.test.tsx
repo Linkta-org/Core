@@ -1,38 +1,52 @@
 import React from 'react';
-import { render, screen, act } from '@utils/testUtils';
-import App from '@/App';
+import { render, screen } from '@utils/testUtils';
 import { vi } from 'vitest';
+import type { Mock } from 'vitest';
 import useWatchAuthenticatedState from '@hooks/useWatchAuthenticatedState';
+import App from '@/App';
+import { createMemoryRouter } from 'react-router-dom';
+import { getRoutes } from '@/routes';
 
-vi.mock('@hooks/useAuth', () => ({
+vi.mock('@hooks/useWatchAuthenticatedState', () => ({
   default: vi.fn(),
 }));
 
 describe('App', () => {
-  const setup = async (isAuthenticated: boolean) => {
-    (useWatchAuthenticatedState as ReturnType<typeof vi.fn>).mockReturnValue({
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const renderWithAuth = (isAuthenticated: boolean, initialRoute = '/') => {
+    const authState = {
       isAuthenticated,
       isLoading: false,
+    };
+
+    (useWatchAuthenticatedState as Mock).mockReturnValue(authState);
+
+    const router = createMemoryRouter(getRoutes(), {
+      initialEntries: [initialRoute],
+      initialIndex: 0,
     });
 
-    await act(async () => {
-      render(<App />, { initialEntries: ['/'] });
-    });
+    const result = render(<App router={router} />);
+
+    return result;
   };
-  // TODO add test for authorized routes
-  // it('renders MainLayout when authenticated', async () => {
-  //   await setup(true);
 
-  //   expect(screen.getByText('Explore a New Topic')).toBeInTheDocument();
-  // });
-
-  it('renders UnauthorizedLayout when not authenticated', async () => {
-    await setup(false);
-
+  it('renders homepage content when not authenticated', () => {
+    renderWithAuth(false, '/');
     expect(
-      screen.getByText(
-        'Revolutionizing Learning: Intuitive Visualization for Complex Concepts',
-      ),
+      screen.getByRole('heading', {
+        name: /revolutionizing learning: intuitive visualization for complex concepts/i,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('renders authenticated content when authenticated', () => {
+    renderWithAuth(true, '/generated');
+    expect(
+      screen.getByRole('link', { name: /explore a new topic/i }),
     ).toBeInTheDocument();
   });
 });

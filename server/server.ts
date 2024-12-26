@@ -25,25 +25,29 @@ startAllScheduledLoggingTasks();
 const { getLogger, shutdown: log4jsShutdown } = log4js;
 const logger = getLogger('[SERVER]');
 
+const isTestEnvironment = process.env.NODE_ENV === 'test';
 const uri = process.env.MONGO_DB_URI;
 mongoose.set('strictQuery', false);
+
+const app: Express = express();
 
 /**
  * Start the server.
  */
 function startServer() {
-  const app: Express = express();
   const PORT = process.env.PORT || 3000;
 
   // Apply the rate limiting middleware to all requests.
   app.use(RateLimiter);
 
-  if (!uri) {
+  if (!isTestEnvironment && !uri) {
     throw new Error('Missing DB connection string!');
   }
 
   // eslint-disable-next-line no-console
-  connectToDatabase(uri || '').catch(console.dir);
+  if (!isTestEnvironment) {
+    connectToDatabase(uri || '').catch(console.dir);
+  }
 
   /**
    * Server health check route handler
@@ -136,6 +140,12 @@ function stopServer(server: Server) {
  * This should return the connection so that stopServer can use it to disconnect.
  */
 async function connectToDatabase(link: string) {
+  // Connects only if not in the test environment
+  if (isTestEnvironment) {
+    logger.info('Test environment detected, skipping MongoDB connection');
+    return;
+  }
+
   const client = new MongoClient(link, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -165,3 +175,6 @@ async function connectToDatabase(link: string) {
  * Start the server.
  */
 startServer();
+
+// Export app for testing
+export { app };

@@ -10,9 +10,12 @@
     "start": "vite preview --config vite.config.js",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
-    "test": "vitest",
-    "test:ci": "vitest run",
-    "test:watch": "vitest watch"
+    "test": "npm run test:unit && npm run test:integration",
+    "test:watch": "npm run test:unit:watch & npm run test:integration:watch",
+    "test:unit": "vitest run --mode unit",
+    "test:unit:watch": "vitest watch --mode unit",
+    "test:integration": "vitest run --mode integration",
+    "test:integration:watch": "vitest watch --mode integration"
   },
   "keywords": [
     "education"
@@ -20,6 +23,7 @@
   "author": "linkta",
   "license": "MIT",
   "devDependencies": {
+    "@jackfranklin/test-data-bot": "^1.4.0",
     "@tanstack/eslint-plugin-query": "^5.20.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
@@ -55,6 +59,7 @@
     "@dagrejs/dagre": "^1.1.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@faker-js/faker": "^9.1.0",
     "@fontsource/roboto": "^5.0.13",
     "@hookform/resolvers": "^3.6.0",
     "@mui/icons-material": "^5.15.18",
