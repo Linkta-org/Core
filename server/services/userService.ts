@@ -13,6 +13,7 @@ const createUserService = () => {
    * Finds and returns a user by Firebase UID.
    */
   const findUserByUid = async (uid: string) => {
+    console.log('Finding user by UID:', uid);
     try {
       const user = await UserModel.findOne({ uid });
 

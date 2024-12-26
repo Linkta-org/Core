@@ -1,28 +1,21 @@
-/* Container Styles */
-.flowContainer {
-  background-color: hsla(186, 40%, 15%, 0.4);
-  height: 100%;
-  width: 100%;
-}
-
-/* Node Styles */
-.handle {
-  background-color: transparent;
+.anchor {
+  background-color: #979797;
+  /* border: 1px solid #979797; */
   border: none;
 }
 
-.nodeWrapper {
+.node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
   background-color: var(--primary-dark);
   height: 44px;
   width: 168px;
-  display: flex;
   border-radius: 5px;
-  border: 0.2px solid #000;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.25);
-  transition:
-    box-shadow 0.3s,
-    border 0.3s;
+  border: 1px solid #979797;
   overflow: hidden;
+  cursor: default;
 }
 
 .nodeFocused {
@@ -31,41 +24,54 @@
   box-shadow: 0 0 4px 1px rgba(255, 165, 27, 0.6);
 }
 
-.nodeColorBar {
-  border-radius: 5px 0 0 5px;
-  width: 8px;
-  height: 100%;
-  background-color: #040ce1;
-}
-
-.nodeContent {
-  flex-grow: 1;
+.dragHandle {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: inherit;
-  padding: 0 2px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  width: 10px;
+  height: 100%;
+  background-color: #2e77ae;
+  cursor: grab;
+  user-select: none;
+  > .dragIndicator {
+    color: #979797;
+    font-size: 1rem;
+    filter: drop-shadow(0.8px 0.8px 0.3px hsla(0, 0%, 0%, 0.5));
+  }
+  &:active {
+    cursor: grabbing;
+  }
 }
 
-.textField {
-  background: transparent;
-  border: none;
-  color: white;
-  font-weight: 500;
-  width: 100%;
-}
-
-.textFieldInput {
-  text-align: center;
+.nodeLabel {
+  max-width: 140px;
   font-size: 11px;
   text-overflow: ellipsis;
+  text-wrap: nowrap;
   white-space: nowrap;
+  overflow: hidden;
+  background: transparent;
+  color: white;
+  font-weight: 500;
 }
 
-.nodeContent :global(.MuiOutlinedInput-root) {
-  fieldset {
-    border: none;
+.nodeButtonContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 10px;
+  align-items: flex-end;
+}
+
+.nodeButton {
+  color: #979797;
+  cursor: pointer;
+  > svg {
+    font-size: 0.8rem;
   }
+}
+
+.edge {
+  color: red;
 }

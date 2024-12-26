@@ -20,7 +20,7 @@ import {
 const setupDagreFlow = () => {
   const dagreFlow = new dagre.graphlib.Graph();
   dagreFlow.setDefaultEdgeLabel(() => ({}));
-  dagreFlow.setGraph({ rankdir: 'TB' });
+  dagreFlow.setGraph({ rankdir: 'TB', ranksep: 150 });
   return dagreFlow;
 };
 

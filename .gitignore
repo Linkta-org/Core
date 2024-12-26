@@ -5,3 +5,5 @@ dist
 .DS_Store
 .vscode
 server/logs/*
+server/.env
+client/.env

@@ -1,14 +1,13 @@
-import type { ChangeEvent } from 'react';
-import React, { useState, memo } from 'react';
+import React, { memo, useState } from 'react';
 import type { NodeProps } from 'reactflow';
 import { Handle, Position } from 'reactflow';
-import { Box, TextField } from '@mui/material';
+import { Box, Paper, Typography, IconButton } from '@mui/material';
+import { DragIndicator, ExpandCircleDownOutlined } from '@mui/icons-material';
 import styles from '@styles/LinktaFlow.module.css';
+import OptionsMenu from '@/components/layout/OptionsMenu';
 
 type LinktaNodeData = {
-  color?: string;
   label?: string;
-  id: string;
 };
 
 type LinktaNodeProps = NodeProps<LinktaNodeData> & {
@@ -16,67 +15,65 @@ type LinktaNodeProps = NodeProps<LinktaNodeData> & {
 };
 
 const LinktaNode = memo(({ isConnectable, data }: LinktaNodeProps) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [label, setLabel] = useState(data.label || 'TCP/IP Model');
+  const [optionsMenuAnchor, setOptionsMenuAnchor] =
+    useState<null | HTMLElement>(null);
+  const handleOptionsIconClick = (event: React.MouseEvent<HTMLElement>) => {
+    const parentElement = event.currentTarget.parentNode as HTMLElement;
+    setOptionsMenuAnchor(parentElement);
+  };
+  const isOptionsMenuOpen = Boolean(optionsMenuAnchor);
+  const [isRenamingDialogOpen, setIsRenamingDialogOpen] = useState(false);
+  const [isDeletionDialogOpen, setIsDeletionDialogOpen] = useState(false);
+  const handleLiktaFlowRegeneration = () => {
+    console.log('Placeholder for handleLiktaFlowRegeneration');
+  };
 
-  const onFocus = () => setIsFocused(true);
-  const onBlur = () => setIsFocused(false);
-
-  const handleLabelChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setLabel(e.target.value);
+  console.log({ isRenamingDialogOpen, isDeletionDialogOpen, data });
 
   return (
-    <Box
-      className={`${styles.nodeWrapper} ${isFocused ? styles.nodeFocused : ''}`}
+    <Paper
+      elevation={10}
+      className={`${styles.node}`}
     >
-      <Box className={styles.nodeColorBar} />
-      <Box className={styles.nodeContent}>
-        <TextField
-          hiddenLabel
-          value={label}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={handleLabelChange}
-          size='small'
-          id='filled-hidden-label-small'
-          className={styles.textField}
-          InputProps={{
-            classes: {
-              input: styles.textFieldInput,
-              root: styles.textFieldFieldset,
-            },
-          }}
-        />
+      <Box className={`${styles.dragHandle} dragHandle`}>
+        <DragIndicator className={`${styles.dragIndicator}`} />
       </Box>
-      <Handle
-        type='source'
-        position={Position.Bottom}
-        id='a'
-        className={styles.handle}
-        isConnectable={isConnectable}
-      />
+      <Typography className={`${styles.nodeLabel}`}>{data.label}</Typography>
+      <Box className={`${styles.nodeButtonContainer}`}>
+        <IconButton
+          size='small'
+          aria-label='expand node'
+          onClick={handleOptionsIconClick}
+          className={`${styles.nodeButton}`}
+        >
+          <ExpandCircleDownOutlined />
+        </IconButton>
+      </Box>
       <Handle
         type='target'
         position={Position.Top}
         id='d'
-        className={styles.handle}
+        className={styles.anchor}
         isConnectable={isConnectable}
       />
       <Handle
         type='source'
-        position={Position.Right}
-        id='b'
-        className={styles.handle}
+        position={Position.Bottom}
+        id='a'
+        className={styles.anchor}
         isConnectable={isConnectable}
       />
-      <Handle
-        type='target'
-        position={Position.Left}
-        id='c'
-        className={styles.handle}
-        isConnectable={isConnectable}
+      <OptionsMenu
+        // arialabelledby={`user-input-button-${activeUserInput?.id}`}
+        arialabelledby={`user-input-button-TBD`}
+        anchorEl={optionsMenuAnchor}
+        isOpen={isOptionsMenuOpen}
+        onClose={() => setOptionsMenuAnchor(null)}
+        onRename={() => setIsRenamingDialogOpen(true)}
+        onRegenerate={handleLiktaFlowRegeneration}
+        onDelete={() => setIsDeletionDialogOpen(true)}
       />
-    </Box>
+    </Paper>
   );
 });
 
